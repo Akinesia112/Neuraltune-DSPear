@@ -50,11 +50,11 @@ Neuraltune-DSPear/
 │   │
 ├── k8s/                                # Kubernetes YAML configs
 │   ├── torchserve.yaml                 # Deploys TorchServe GPU API
-│   ├── ray-cluster.yaml                 # Deploys Ray RL workers
-│   ├── hpa-ray-worker.yaml              # Kubernetes HPA for autoscaling workers
-│   ├── gpu-cluster-autoscaler.yaml      # Kubernetes Cluster Autoscaler
-│   ├── prometheus.yaml                  # Prometheus monitoring setup
-│   ├── grafana.yaml                     # Grafana visualization setup
+│   ├── ray-cluster.yaml                # Deploys Ray RL workers
+│   ├── hpa-ray-worker.yaml             # Kubernetes HPA for autoscaling workers
+│   ├── gpu-cluster-autoscaler.yaml     # Kubernetes Cluster Autoscaler
+│   ├── prometheus.yaml                 # Prometheus monitoring setup
+│   ├── grafana.yaml                    # Grafana visualization setup
 │
 ├── rl/                                 # Reinforcement learning scripts
 │   ├── train_ray_rl.py                 # Trains RL model for DSP tuning
