@@ -16,6 +16,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # Define external dependencies directory
 set(EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+
 # Include directories for external dependencies
 include_directories(${EXTERNAL_DIR}/imgui)
 include_directories(${EXTERNAL_DIR}/imnodes)
@@ -24,11 +26,13 @@ include_directories(${EXTERNAL_DIR}/torchserve)
 include_directories(${EXTERNAL_DIR}/ray)
 include_directories(${EXTERNAL_DIR}/prometheus)
 include_directories(${EXTERNAL_DIR}/grafana)
+include_directories(${Python3_INCLUDE_DIRS})
 
 # Link libraries for external dependencies
 link_directories(${EXTERNAL_DIR}/portaudio/lib)
 link_directories(${EXTERNAL_DIR}/torchserve)
 link_directories(${EXTERNAL_DIR}/ray)
+
 
 # Define source files
 set(SOURCES
@@ -53,6 +57,7 @@ set(SOURCES
 
 # Define executable
 add_executable(Neuraltune-DSPear ${SOURCES})
+target_link_libraries(Neuraltune-DSPear PRIVATE ${Python3_LIBRARIES})
 
 # Find and link PortAudio
 find_package(PortAudio REQUIRED)

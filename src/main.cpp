@@ -8,6 +8,7 @@
 #include "mlops/torchserve_client.h"
 #include "mlops/kubernetes_client.h"
 #include "mlops/ml_controller.h"
+#include "mlops/mlflow.h"
 
 void runDSPPipeline() {
     std::cout << "🚀 Initializing DSP Engine...\n";
@@ -64,6 +65,11 @@ int main() {
     dspThread.join();
     aiThread.join();
     k8sThread.join();
+
+    MLflowClient mlflow;
+    mlflow.logParam("DSP Model", "Neuraltune Optimized");
+    mlflow.logMetric("AI Accuracy", 0.987);
+
 
     return 0;
 }
