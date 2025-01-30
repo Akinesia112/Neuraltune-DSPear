@@ -1,15 +1,15 @@
-# **Neuraltune-DSPear: AI-Driven Real-Time Audio Processing with Scalable MLOps**
+# **Neuraltune-DSPear: RL-Driven Real-Time Audio Processing with Scalable MLOps**
 
-🚀 **Neuraltune DSPear** is an RL-powered **Digital Audio Workstation (DAW)** that combines **real-time DSP tuning**, **machine learning-driven audio optimization**, and **Kubernetes GPU auto-scaling**. It features **PyTorch-based AI models deployed via TorchServe**, **reinforcement learning (Ray RL) for DSP tuning**, and **a distributed, scalable MLOps architecture** for seamless performance.
+🚀 **Neuraltune DSPear** is an RL-powered **Digital Audio Workstation (DAW)** that combines **real-time DSP tuning**, **machine learning-driven audio optimization**, and **Kubernetes GPU auto-scaling**. It features **PyTorch-based RL models deployed via TorchServe**, **reinforcement learning (Ray RL) for DSP tuning**, and **a distributed, scalable MLOps architecture** for seamless performance.
 
 ## **🌟 Features**
 ### **🔊 Digital Audio Processing**
 - **Real-time DSP Engine** (PortAudio, FFT-based effects)
 - **Node-based DSP pipeline editor** (ImNodes for visualization)
 - **Multi-track audio processing & synthesis**
-### **🤖 AI-Driven DSP Optimization**
-- **PyTorch AI inference using TorchServe**
-- **AI-based denoising, style transfer, and EQ optimization**
+### **🤖 RL-Driven DSP Optimization**
+- **PyTorch RL inference using TorchServe**
+- **RL-based denoising, style transfer, and EQ optimization**
 - **Reinforcement Learning (Ray RL) for automated DSP parameter tuning**
 ### **⚡ Scalable Kubernetes Deployment**
 - **Multi-instance GPU scheduling using NVIDIA MIG**
@@ -18,7 +18,7 @@
 ### **📊 Monitoring & Logging**
 - **Prometheus-based GPU monitoring**
 - **Grafana dashboard for visualization**
-- **MLflow integration for tracking AI models**
+- **MLflow integration for tracking RL models**
 
 ## **📂 Project Directory Structure**
 ```plaintext
@@ -115,7 +115,7 @@ Grafana: http://localhost:3000
 ```
 ## **🎯 Expected Output**
 
-- Real-time AI-optimized DSP processing (PyTorch models dynamically modify DSP parameters, AI-based audio enhancement)
+- Real-time RL-optimized DSP processing (PyTorch models dynamically modify DSP parameters, AI-based audio enhancement)
 - Node-based GUI for audio processing (Drag-and-drop DSP pipeline, real-time frequency spectrum visualization)
 - Kubernetes-powered AutoScaling (Ray RL workers dynamically scale up/down, GPU workloads managed efficiently)
 
@@ -128,4 +128,4 @@ git commit -m "Added new DSP effect"
 git push origin feature-branch
 ```
 
-## **🚀 Now you're ready to build AI-powered, GPU-accelerated, real-time DSP applications! 🚀**
+## **🚀 Now you're ready to build RL-powered, GPU-accelerated, real-time DSP applications! 🚀**
