@@ -72,7 +72,7 @@ Neuraltune-DSPear/
 └── README.md                           # Project documentation
 ```
 
-🔧 Installation
+## **🔧 Installation**
 
 ```plaintext
 sudo apt update && sudo apt install -y \
@@ -87,3 +87,45 @@ kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/mast
 sudo nvidia-smi mig -i 0 -e 1
 sudo nvidia-smi mig -i 0 -cgi 19,19,19
 ```
+
+## **🛠️ Build & Compile**
+
+```plaintext
+mkdir build && cd build
+cmake ..
+make -j$(nproc)
+```
+
+## **🚀 Running the Project**
+
+```plaintext
+./build/Neuraltune-DSPear
+python3 rl/train_ray_rl.py
+kubectl apply -f k8s/prometheus.yaml
+kubectl port-forward svc/prometheus 9090:9090
+kubectl apply -f k8s/grafana.yaml
+kubectl port-forward svc/grafana 3000:3000
+```
+
+Then visit:
+
+```plaintext
+Prometheus: http://localhost:9090
+Grafana: http://localhost:3000
+```
+## **🎯 Expected Output**
+
+- Real-time AI-optimized DSP processing (PyTorch models dynamically modify DSP parameters, AI-based audio enhancement)
+- Node-based GUI for audio processing (Drag-and-drop DSP pipeline, real-time frequency spectrum visualization)
+- Kubernetes-powered AutoScaling (Ray RL workers dynamically scale up/down, GPU workloads managed efficiently)
+
+## **🤝 Contributing**
+
+```plaintext
+git clone https://github.com/[yourusername]/Neuraltune-DSPear.git
+git checkout -b feature-branch
+git commit -m "Added new DSP effect"
+git push origin feature-branch
+```
+
+## **🚀 Now you're ready to build AI-powered, GPU-accelerated, real-time DSP applications! 🚀**
