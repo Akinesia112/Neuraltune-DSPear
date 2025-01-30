@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: torchserve-gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: torchserve-gpu
+  template:
+    metadata:
+      labels:
+        app: torchserve-gpu
+    spec:
+      containers:
+      - name: torchserve
+        image: pytorch/torchserve:latest-gpu
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+        resources:
+          limits:
+            nvidia.com/gpu: 1  # utilize 1 GPU

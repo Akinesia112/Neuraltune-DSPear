@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ray-cluster
+spec:
+  replicas: 4  # utilize 4  worker nodes
+  selector:
+    matchLabels:
+      app: ray-worker
+  template:
+    metadata:
+      labels:
+        app: ray-worker
+    spec:
+      containers:
+      - name: ray-worker
+        image: rayproject/ray-ml:latest-gpu
+        command: ["ray", "start", "--address=ray-head:6379"]
+        resources:
+          limits:
+            nvidia.com/gpu: 0.5  # 每個 Worker 分配 0.5 顆 GPU

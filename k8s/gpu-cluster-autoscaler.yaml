@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+    spec:
+      serviceAccountName: cluster-autoscaler
+      containers:
+      - name: cluster-autoscaler
+        image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.0
+        command:
+          - ./cluster-autoscaler
+          - --v=4  # Log verbosity (4 = detailed logs)
+          - --logtostderr
+          - --scale-down-enabled=true  # Enables automatic downscaling
+          - --scale-down-delay-after-add=5m  # Wait time before removing a node
+          - --scale-down-unneeded-time=5m  # If idle for 5 mins, remove GPU node
+          - --scale-down-utilization-threshold=0.5  # If < 50% utilization, remove node
+          - --nodes=1:10:gke-gpu-node-pool  # Scale between 1-10 GPU nodes
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /etc/gcp-service-account/service-account.json
+        volumeMounts:
+        - name: gcp-service-account
+          mountPath: /etc/gcp-service-account
+          readOnly: true
+      volumes:
+      - name: gcp-service-account
+        secret:
+          secretName: gcp-service-account
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"

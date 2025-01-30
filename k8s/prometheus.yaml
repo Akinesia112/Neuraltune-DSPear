@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gpu-monitor
+spec:
+  selector:
+    matchLabels:
+      app: ray-worker
+  endpoints:
+    - port: "8265"
+      path: "/metrics"
+      interval: 10s
