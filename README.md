@@ -25,28 +25,40 @@
 Neuraltune-DSPear/
 │
 ├── src/
-│   ├── main.cpp                        # Main entry point (C++)
+│   ├── main.h/cpp                      # Main entry point (C++)
 │   ├── gui/
-│   │   ├── dsp_graph.cpp               # Node-based DSP editor
-│   │   ├── spectrum_visualizer.cpp     # FFT spectrum visualization
-│   │   ├── mlops_pipeline.cpp          # RL control panel
-│   │   ├── parameter_controls.cpp      # DSP parameter adjustments
+│   │   ├── dsp_graph.h/cpp             # Node-based DSP editor
+│   │   ├── spectrum_visualizer.h/cpp   # FFT spectrum visualization
+│   │   ├── mlops_pipeline.h/cpp        # RL control panel
+│   │   ├── parameter_controls.h/cpp    # DSP parameter adjustments
+│   │   ├── daw_gui.cpp                 # DAW GUI
 │   │
 │   ├── mlops/
-│   │   ├── ml_controller.cpp           # MLOps control module
-│   │   ├── pytorch_inference.cpp       # PyTorch model inference
+│   │   ├── ml_controller.h/cpp         # MLOps control module
+│   │   ├── pytorch_inference.h/cpp     # PyTorch model inference
 │   │   ├── ray_rl_train.py             # Reinforcement learning training
 │   │   ├── dsp_env.py                  # RL environment
 │   │   ├── torchserve_client.py        # TorchServe API client
-│   │   ├── mlflow_client.cpp           # MLflow logging
-│   │   ├── kubernetes_client.cpp       # Kubernetes API integration
+│   │   ├── mlflow_client.h/cpp         # MLflow logging
+│   │   ├── kubernetes_client.h/cpp     # Kubernetes API integration
 │   │
 │   ├── audio/
-│   │   ├── real_time_synthesis.cpp     # Real-time audio synthesis
-│   │   ├── effects.cpp                 # DSP effects (EQ, reverb, limiter)
-│   │   ├── mixer.cpp                   # Multi-track mixing
-│   │   ├── fft_analysis.cpp            # FFT spectrum processing
-│   │   ├── portaudio_wrapper.cpp       # PortAudio-based audio playback
+│   │   ├── real_time_synthesis.h/cpp   # Real-time audio synthesis
+│   │   ├── effects.h/cpp               # DSP effects (EQ, reverb, limiter)
+│   │   ├── mixer.h/cpp                 # Multi-track mixing
+│   │   ├── fft_analysis.h/cpp          # FFT spectrum processing
+│   │   ├── portaudio_wrapper.h/cpp     # PortAudio-based audio playback
+│   │   ├── oscillator.h/cpp            # Synthesizer
+│   │   ├── filter.h/cpp                # Filter
+│   │   ├── effects.h/cpp               # effects
+│   │   ├── portaudio_wrapper.h/cpp     # Instant playback
+│   │   ├── wav_recorder.h/cpp           # WAV processing
+│   │   ├── fft_analyzer.h/cpp          # FFT spectrum analysis
+│   │   ├── eq.h/cpp                    # Advanced EQ
+│   ├── midi/
+│   │   ├──  midi_controller.h/cpp      # MIDI input control
+│   │   ├──  midi_recorder.h/cpp        # MIDI recording
+│   │   ├──  midi_quantizer.h/cpp       # MIDI automatic quantization
 │   │
 ├── k8s/                                # Kubernetes YAML configs
 │   ├── torchserve.yaml                 # Deploys TorchServe GPU API
@@ -55,6 +67,7 @@ Neuraltune-DSPear/
 │   ├── gpu-cluster-autoscaler.yaml     # Kubernetes Cluster Autoscaler
 │   ├── prometheus.yaml                 # Prometheus monitoring setup
 │   ├── grafana.yaml                    # Grafana visualization setup
+│   ├── torchserve_client.py            # Torchserve client setup
 │
 ├── rl/                                 # Reinforcement learning scripts
 │   ├── train_ray_rl.py                 # Trains RL model for DSP tuning
