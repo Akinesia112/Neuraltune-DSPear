@@ -1,9 +1,20 @@
 #include <iostream>
 #include <thread>
+
 #include "audio/real_time_synthesis.h"
+#include "audio/eq.h"
 #include "audio/effects.h"
 #include "audio/mixer.h"
 #include "audio/fft_analysis.h"
+#include "audio/fft_analyzer.h"
+#include "audio/oscillator.h"
+#include "audio/portaudio_wrapper.h"
+
+#include "midi/midi_controller.h"
+#include "midi/midi_recorder.h"
+
+#include "gui/daw_gui.h"
+
 #include "mlops/rl_optimizer.h"
 #include "mlops/torchserve_client.h"
 #include "mlops/kubernetes_client.h"
@@ -12,6 +23,24 @@
 #include "mlops/pytorch_inference.h"
 #include "mlops/mlflow_client.h"
 #include "mlops/kubernetes_client.h"
+
+Equalizer eq;
+MidiRecorder midiRecorder;
+
+void midiNoteHandler(int status, int note, int velocity) {
+    if (status == 144) {
+        double frequency = 440.0 * pow(2.0, (note - 69) / 12.0);
+        std::cout << "🎹 MIDI Note: " << note << " (Freq: " << frequency << " Hz)" << std::endl;
+        midiRecorder.recordEvent(status, note, velocity);
+    }
+}
+
+void midiNoteHandler(int status, int note, int velocity) {
+    if (status == 144) {  // Note On
+        double frequency = 440.0 * pow(2.0, (note - 69) / 12.0);
+        std::cout << "🎹 Note On: " << note << " (Freq: " << frequency << " Hz)" << std::endl;
+    }
+}
 
 void runDSPPipeline() {
     std::cout << "🚀 Initializing DSP Engine...\n";
@@ -54,6 +83,38 @@ void runKubernetesScaling() {
 
 int main() {
     std::cout << "🎵 Starting Neuraltune DSPear Engine...\n";
+
+    PortAudioWrapper audioPlayer;
+    Oscillator osc(Waveform::Sine, 440.0, 0.5);
+    FFTAnalyzer fftAnalyzer(1024);
+    MidiController midi(midiNoteHandler);
+    DAW_GUI gui(eq, midiRecorder);
+
+    // 🎵 Generate a simple sine wave (440Hz, 2 sec)
+    std::vector<float> sineWave;
+    std::vector<float> audioData;
+    float frequency = 440.0f;
+    for (int i = 0; i < 44100 * 2; i++) {
+        // sineWave.push_back(0.5f * sinf(2.0f * M_PI * frequency * i / 44100));
+        sineWave.push_back(osc.process());
+
+        float sample = osc.process();
+        audioData.push_back(eq.process(sample));
+    }
+
+    std::thread midiThread(&MidiController::start, &midi);
+    audioPlayer.startPlayback(sineWave);
+    audioPlayer.startPlayback(audioData);
+
+
+    // fft analyzing
+    std::vector<double> spectrum = fftAnalyzer.analyze(sineWave);
+    for (double val : spectrum) {
+        std::cout << val << " ";
+    }
+    std::cout << std::endl;
+
+    midiThread.join();
 
     // Launch DSP Processing
     std::thread dspThread(runDSPPipeline);
