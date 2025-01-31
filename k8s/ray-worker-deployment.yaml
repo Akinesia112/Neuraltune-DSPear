@@ -1,0 +1,24 @@
+# 📜 `k8s/ray-worker-deployment.yaml`
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ray-worker
+  labels:
+    app: ray-worker
+spec:
+  replicas: 2  # Default number of workers
+  selector:
+    matchLabels:
+      app: ray-worker
+  template:
+    metadata:
+      labels:
+        app: ray-worker
+    spec:
+      containers:
+      - name: ray-worker
+        image: rayproject/ray:latest
+        command: ["ray", "start", "--address=ray-head:6379"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
