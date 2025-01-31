@@ -1,5 +1,6 @@
 #pragma once
-#include <pybind11/embed.h>
+#include <embed.h>
+#include <pybind11>
 
 namespace py = pybind11;
 

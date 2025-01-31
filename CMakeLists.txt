@@ -27,6 +27,32 @@ include_directories(${EXTERNAL_DIR}/ray)
 include_directories(${EXTERNAL_DIR}/prometheus)
 include_directories(${EXTERNAL_DIR}/grafana)
 include_directories(${Python3_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/external)
+include_directories(${CMAKE_SOURCE_DIR}/external/pybind11/include)
+
+# Automatically detect Pybind11 include path
+execute_process(COMMAND python3 -m pybind11 --includes OUTPUT_VARIABLE PYBIND11_INCLUDE_DIR)
+string(REGEX REPLACE "\n$" "" PYBIND11_INCLUDE_DIR "${PYBIND11_INCLUDE_DIR}")
+
+# Print detected path (for debugging)
+message(STATUS "Using Pybind11 include path: ${PYBIND11_INCLUDE_DIR}")
+
+# Include Pybind11 in project
+include_directories(${PYBIND11_INCLUDE_DIR})
+
+# Link against Python libraries
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+
+# Manually include Python headers
+include_directories(/usr/include/python3.12)
+
+# Print detected Python path (for debugging)
+message(STATUS "Using Python include path: ${Python3_INCLUDE_DIRS}")
+
+# Link Python libraries
+target_link_libraries(Neuraltune-DSPear PRIVATE ${Python3_LIBRARIES})
+
 
 # Link libraries for external dependencies
 link_directories(${EXTERNAL_DIR}/portaudio/lib)
@@ -54,6 +80,13 @@ set(SOURCES
     src/audio/fft_analysis.cpp
     src/audio/portaudio_wrapper.cpp
 )
+
+set(Torch_DIR "/usr/local/libtorch/share/cmake/Torch")
+find_package(Torch REQUIRED)
+
+include_directories(${TORCH_INCLUDE_DIRS})
+target_link_libraries(Neuraltune-DSPear PRIVATE ${TORCH_LIBRARIES})
+
 
 # Define executable
 add_executable(Neuraltune-DSPear ${SOURCES})

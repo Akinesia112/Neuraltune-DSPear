@@ -9,6 +9,9 @@
 #include "mlops/kubernetes_client.h"
 #include "mlops/ml_controller.h"
 #include "mlops/mlflow.h"
+#include "mlops/pytorch_inference.h"
+#include "mlops/mlflow_client.h"
+#include "mlops/kubernetes_client.h"
 
 void runDSPPipeline() {
     std::cout << "🚀 Initializing DSP Engine...\n";
@@ -59,6 +62,8 @@ int main() {
     std::thread aiThread(runAIOptimization);
 
     // Monitor Kubernetes Scaling
+    KubernetesClient k8s;
+    k8s.scaleRayWorkers(2, 6); // Ensure at least 2 workers, max 6
     std::thread k8sThread(runKubernetesScaling);
 
     // Join all threads
@@ -67,9 +72,10 @@ int main() {
     k8sThread.join();
 
     MLflowClient mlflow;
+    mlflow.startRun("DSP Optimization");
     mlflow.logParam("DSP Model", "Neuraltune Optimized");
     mlflow.logMetric("AI Accuracy", 0.987);
-
+    mlflow.endRun();
 
     return 0;
 }
