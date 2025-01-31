@@ -18,6 +18,19 @@ set(EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
+find_package(PortAudio REQUIRED)
+target_link_libraries(Neuraltune-DSPear PRIVATE portaudio)
+
+
+find_package(FFTW REQUIRED)
+find_package(RtMidi REQUIRED)
+find_package(ImGui REQUIRED)
+target_link_libraries(Neuraltune-DSPear PRIVATE fftw3 rtmidi imgui)
+
+include_directories(/usr/include)
+link_directories(/usr/lib)
+target_link_libraries(Neuraltune-DSPear PRIVATE rtmidi)
+
 # Include directories for external dependencies
 include_directories(${EXTERNAL_DIR}/imgui)
 include_directories(${EXTERNAL_DIR}/imnodes)
